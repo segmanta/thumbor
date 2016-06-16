@@ -30,6 +30,8 @@ from thumbor.transformer import Transformer
 from thumbor.utils import logger, CONTENT_TYPE, EXTENSION
 import thumbor.filters
 
+from tornado_cors import CorsMixin
+
 
 HTTP_DATE_FMT = "%a, %d %b %Y %H:%M:%S GMT"
 
@@ -44,7 +46,9 @@ class FetchResult(object):
         self.loader_error = loader_error
 
 
-class BaseHandler(tornado.web.RequestHandler):
+class BaseHandler(CorsMixin, tornado.web.RequestHandler):
+    CORS_ORIGIN = '*'
+
     url_locks = {}
 
     def _error(self, status, msg=None):
